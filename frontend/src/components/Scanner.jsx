@@ -16,6 +16,7 @@ const Scanner = () => {
   const [rollfound, setRollfound] = useState(false);
   const [attendance, setAttendance] = useState(false);
   const [events, SetEvents] = useState([]);
+  const [backendError, setBackendError] = useState("");
 
   useEffect(() => {
     if (!rollno || rollno.length === 0) {
@@ -144,11 +145,11 @@ const Scanner = () => {
       })
       .then((response) => {
         setAttendance(true);
-        console.log(response.data)
+        console.log(response.data);
       })
       .catch((error) => {
         setAttendance(false);
-
+        setBackendError(error.response.data);
       });
   };
 
@@ -183,6 +184,7 @@ const Scanner = () => {
         {rollfound && <Membercard data={user} />}
         {rollfound && <button onClick={markattendence}>Yes</button>}
         {attendance && <p>Attendance marked sucessfully</p>}
+        {!attendance && backendError && <p>{backendError}</p>}
         <canvas ref={canvasref}></canvas>
         <div>
           {!scanning ? (
