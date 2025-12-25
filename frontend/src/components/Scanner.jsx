@@ -1,16 +1,36 @@
 import React, { useEffect, useRef, useState } from "react";
 import Tesseract from "tesseract.js";
+import Membercard from "./Membercard";
+import axios from "axios";
 
 const Scanner = () => {
   const streamref = useRef(null);
   const canvasref = useRef(null);
   const videoref = useRef(null);
   const intervalref = useRef(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [user, setUser] = useState([]);
   const [scanning, setScanning] = useState(false);
-  const [rollno, setrollno] = useState([]);
+  const [rollno, setrollno] = useState("");
   const [rollfound, setRollfound] = useState(false);
   useEffect(() => {
-    rollno.length > 0 ? setRollfound(true) : setRollfound(false);
+    if (!rollno || rollno.length === 0) {
+      setRollfound(false);
+      return;
+    }
+
+    axios
+      .get(`http://localhost:8080/api/setmember/${rollno}`)
+      .then((response) => {
+        setUser(response.data);
+        setRollfound(true);
+      })
+      .catch((error) => {
+        console.error(error);
+        setUser([]);
+        setRollfound(false);
+      });
   }, [rollno]);
   const startCamera = async () => {
     streamref.current = await navigator.mediaDevices.getUserMedia({
@@ -30,7 +50,7 @@ const Scanner = () => {
   const startscanning = async () => {
     setScanning(true);
     await startCamera();
-    intervalref.current = setInterval(extracttext, 500);
+    intervalref.current = setInterval(extracttext, 1500);
   };
   const stopscanning = async () => {
     setScanning(false);
@@ -114,6 +134,7 @@ const Scanner = () => {
         )}
         <h3>Present Students</h3>
         <ul>{rollno}</ul>
+        {rollfound && <Membercard data={user} />}
         <canvas ref={canvasref}></canvas>
         <div>
           {!scanning ? (
