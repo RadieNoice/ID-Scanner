@@ -38,22 +38,16 @@ public class AttendanceService {
 
     public Attendance markAttendance(AttendanceDto dto) {
 
-        Event event = eventRepo.findById(dto.getEventId())
-                .orElseThrow(() -> new RuntimeException("Event not found"));
-
-        Members member = membersRepo.findById(dto.getRegnum())
-                .orElseThrow(() -> new RuntimeException("Member not found"));
-
-        attendanceRepo
+        if (attendanceRepo
             .findByEvent_IdAndMember_Regnum(dto.getEventId(), dto.getRegnum())
-            .ifPresent(a -> {
-                throw new RuntimeException("Attendance already marked");
-            });
+            .isPresent()) {
+            return null;
+        }
 
-        Attendance attendance =
-                mapper.toEntity(dto, event, member);
+        Event event = eventRepo.findById(dto.getEventId()).orElseThrow();
+        Members member = membersRepo.findById(dto.getRegnum()).orElseThrow();
 
-        return attendanceRepo.save(attendance);
+        return attendanceRepo.save(mapper.toEntity(dto, event, member));
     }
     
     public List<Attendance> getAttendanceByEventId(Long eventId) {
