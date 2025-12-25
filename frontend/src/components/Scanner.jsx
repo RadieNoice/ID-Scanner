@@ -1,19 +1,22 @@
 import React, { useEffect, useRef, useState } from "react";
-import Tesseract from "tesseract.js";
+import { createWorker } from "tesseract.js";
 import Membercard from "./Membercard";
+import Eventscard from "./Eventscard";
 import axios from "axios";
 
 const Scanner = () => {
   const streamref = useRef(null);
   const canvasref = useRef(null);
   const videoref = useRef(null);
+  const workerRef = useRef(null);
   const intervalref = useRef(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
   const [user, setUser] = useState([]);
   const [scanning, setScanning] = useState(false);
   const [rollno, setrollno] = useState("");
   const [rollfound, setRollfound] = useState(false);
+  const [attendance, setAttendance] = useState(false);
+  const [events, SetEvents] = useState([]);
+
   useEffect(() => {
     if (!rollno || rollno.length === 0) {
       setRollfound(false);
@@ -32,6 +35,34 @@ const Scanner = () => {
         setRollfound(false);
       });
   }, [rollno]);
+
+  useEffect(() => {
+    const initWorker = async () => {
+      const worker = await createWorker("eng");
+      // Set whitelist for better accuracy/speed since you know the format
+      await worker.setParameters({
+        tessedit_char_whitelist: "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+      });
+      workerRef.current = worker;
+      console.log("Worker Ready");
+    };
+
+    initWorker();
+
+    axios
+      .get(`http://localhost:8080/api/event`)
+      .then((response) => {
+        SetEvents(response.data);
+      })
+      .catch((error) => {});
+    // Cleanup: Terminate worker when component unmounts
+    return () => {
+      if (workerRef.current) {
+        workerRef.current.terminate();
+      }
+    };
+  }, []);
+
   const startCamera = async () => {
     streamref.current = await navigator.mediaDevices.getUserMedia({
       video: { facingMode: "environment" },
@@ -95,15 +126,30 @@ const Scanner = () => {
     );
     const {
       data: { text },
-    } = await Tesseract.recognize(canvas, "eng", {
-      tessedit_char_whitelist: "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
-    });
+    } = await workerRef.current.recognize(canvas);
     const rolls = findrollnumber(text);
-    setrollno(rolls);
+    setrollno((prev) => (rolls.length > 0 ? rolls[0] : prev));
   };
   const findrollnumber = (text) => {
     const regex = /\b\d{2}[A-Z]{3}\d{4}\b/g;
     return text.match(regex) || [];
+  };
+
+  const markattendence = async () => {
+    axios
+      .post(`http://localhost:8080/api/attendance`, {
+        eventId: 2,
+        regnum: rollno,
+        present: true,
+      })
+      .then((response) => {
+        setAttendance(true);
+        console.log(response.data)
+      })
+      .catch((error) => {
+        setAttendance(false);
+
+      });
   };
 
   return (
@@ -135,6 +181,8 @@ const Scanner = () => {
         <h3>Present Students</h3>
         <ul>{rollno}</ul>
         {rollfound && <Membercard data={user} />}
+        {rollfound && <button onClick={markattendence}>Yes</button>}
+        {attendance && <p>Attendance marked sucessfully</p>}
         <canvas ref={canvasref}></canvas>
         <div>
           {!scanning ? (
@@ -143,6 +191,10 @@ const Scanner = () => {
             <button onClick={stopscanning}>Stop Scanning</button>
           )}
         </div>
+        <h3>Events</h3>
+        {events.map((event) => (
+          <Eventscard key={event.id} data={event} />
+        ))}
       </div>
     </div>
   );
