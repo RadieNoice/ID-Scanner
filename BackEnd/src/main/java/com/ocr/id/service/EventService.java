@@ -35,5 +35,14 @@ public class EventService {
 	{
 		return repo.findAll();
 	}
+	
+	public void deleteEvent(Long eventId) {
+
+	    if (!repo.existsById(eventId)) {
+	        throw new RuntimeException("Event not found");
+	    }
+
+	    repo.deleteById(eventId);
+	}
 
 }

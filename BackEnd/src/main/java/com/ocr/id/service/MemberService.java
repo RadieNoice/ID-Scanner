@@ -1,4 +1,6 @@
 package com.ocr.id.service;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.ocr.id.dto.Membersdto;
@@ -26,5 +28,40 @@ public class MemberService {
 	public Members saveMember(Membersdto mem)
 	{
 		return repo.save(mapper.toEntity(mem));
+	}
+	
+	public List<Members> getMembers()
+	{
+		return repo.findAll();
+	}
+	
+	public Members getMemberByRegnum(String regnum) {
+	    return repo.findById(regnum)
+	            .orElseThrow(() -> new RuntimeException("Member not found with regnum: " + regnum));
+	}
+	
+	public Members updateMember(String regnum, Membersdto dto) {
+
+	    Members existing = repo.findById(regnum)
+	            .orElseThrow(() -> new RuntimeException("Member not found"));
+
+	    existing.setName(dto.getName());
+	    existing.setCollege_department(dto.getCollege_department());
+	    existing.setVit_email(dto.getVit_email());
+	    existing.setClub_dept(dto.getClub_dept());
+	    existing.setMobile_no(dto.getMobile_no());
+	    existing.setRole(dto.getRole());
+
+	    return repo.save(existing); 
+	}
+
+
+	public void deleteMember(String regnum) {
+
+	    if (!repo.existsById(regnum)) {
+	        throw new RuntimeException("Member not found");
+	    }
+
+	    repo.deleteById(regnum);
 	}
 }

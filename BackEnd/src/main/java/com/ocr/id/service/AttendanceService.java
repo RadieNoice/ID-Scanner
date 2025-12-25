@@ -63,4 +63,13 @@ public class AttendanceService {
 
         return attendanceRepo.findByEvent_Id(eventId);
     }
+    
+    public void deleteAttendance(Long attendanceId) {
+
+        if (!attendanceRepo.existsById(attendanceId)) {
+            throw new RuntimeException("Attendance not found");
+        }
+
+        attendanceRepo.deleteById(attendanceId);
+    }
 }

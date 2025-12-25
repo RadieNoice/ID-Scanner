@@ -31,4 +31,10 @@ public class AttendanceController {
     ) {
         return service.getAttendanceByEventId(eventId);
     }
+    
+    @DeleteMapping("/{attendanceId}")
+    public String deleteAttendance(@PathVariable Long attendanceId) {
+        service.deleteAttendance(attendanceId);
+        return "Attendance deleted successfully";
+    }
 }
