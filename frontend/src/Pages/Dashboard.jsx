@@ -6,7 +6,7 @@ import axios from "axios";
 const Dashboard = () => {
   const [rollno, setrollno] = useState("");
   const [roll_found, setroll_found] = useState(false);
-  const [selected_event, setselected_event] = useState("");
+  const [selected_event, setselected_event] = useState(false);
   const [events, setevents] = useState([]);
   const [user, setuser] = useState([]);
 
@@ -80,8 +80,8 @@ const Dashboard = () => {
       />
       <h3>Present Students</h3>
       <ul>{rollno}</ul>
-      {roll_found && <Membercard data={user} />}
-      {roll_found && user && <button onClick={mark_attendence}>Yes</button>}
+      {roll_found && selected_event && <Membercard data={user} />}
+      {roll_found && user && selected_event&& <button onClick={mark_attendence}>Yes</button>}
     </div>
   );
 };

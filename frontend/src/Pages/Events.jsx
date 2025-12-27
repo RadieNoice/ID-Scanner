@@ -35,7 +35,7 @@ const Events = () => {
       <div>
         <button
           onClick={() => {
-            setcreateevent(true);
+            setcreateevent((prev) => !prev);
           }}
         >
           create event

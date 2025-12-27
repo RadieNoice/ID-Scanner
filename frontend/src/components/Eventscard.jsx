@@ -7,9 +7,11 @@ import axios from "axios";
 const Eventscard = ({ data, setrefresh }) => {
   const [editing, setEditing] = useState(false);
   const [name, setname] = useState(data.eventname);
+  const [desc, setdesc] = useState(data.eventdesc);
+  const [date, setdate] = useState(data.date);
   const save = async () => {
     setEditing(false);
-    // await axios.put(`http://localhost:8080/api/event/update${data.id}`, {
+    // await axios.put(`http://localhost:8080/api/event/update/${data.id}`, {
     //   eventname: name,
     // });
   };
@@ -17,9 +19,11 @@ const Eventscard = ({ data, setrefresh }) => {
     <div>
       {!editing ? (
         <>
-          <span>
-            {data.id} {data.eventname}
-          </span>
+          <p>
+            {data.id} {name}
+          </p>
+          <p>des :{desc}</p>
+          <p>date: {date}</p>
           <button
             onClick={() => {
               setEditing(true);
@@ -37,7 +41,29 @@ const Eventscard = ({ data, setrefresh }) => {
               setname(e.target.value);
             }}
           />
+          <input
+            type="text"
+            value={desc}
+            onChange={(e) => {
+              setdesc(e.target.value);
+            }}
+          />
+          <input
+            type="date"
+            value={date}
+            onChange={(e) => {
+              setdate(e.target.value);
+            }}
+          />
+
           <button onClick={save}>Save</button>
+          <button
+            onClick={() => {
+              setEditing(false);
+            }}
+          >
+            Cancel
+          </button>
         </>
       )}
     </div>
