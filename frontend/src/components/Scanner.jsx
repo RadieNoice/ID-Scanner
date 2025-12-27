@@ -105,7 +105,6 @@ const Scanner = ({ rollno, setrollno }) => {
 
   return (
     <div>
-      <div>
         <div
           style={{
             width: "300px",
@@ -132,7 +131,6 @@ const Scanner = ({ rollno, setrollno }) => {
             <button onClick={stopscanning}>Stop Scanning</button>
           )}
         </div>
-      </div>
     </div>
   );
 };

@@ -77,7 +77,6 @@ const Dashboard = () => {
       <Scanner
         rollno={rollno}
         setrollno={setrollno}
-        setattendacemarked={setattendacemarked}
       />
       <h3>Present Students</h3>
       <ul>{rollno}</ul>
