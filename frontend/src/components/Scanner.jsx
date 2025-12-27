@@ -4,38 +4,13 @@ import Membercard from "./Membercard";
 import Eventscard from "./Eventscard";
 import axios from "axios";
 
-const Scanner = () => {
+const Scanner = ({ rollno, setrollno }) => {
   const streamref = useRef(null);
   const canvasref = useRef(null);
   const videoref = useRef(null);
   const workerRef = useRef(null);
   const intervalref = useRef(null);
-  const [user, setUser] = useState([]);
   const [scanning, setScanning] = useState(false);
-  const [rollno, setrollno] = useState("");
-  const [rollfound, setRollfound] = useState(false);
-  const [attendance, setAttendance] = useState(false);
-  const [events, SetEvents] = useState([]);
-  const [backendError, setBackendError] = useState("");
-
-  useEffect(() => {
-    if (!rollno || rollno.length === 0) {
-      setRollfound(false);
-      return;
-    }
-
-    axios
-      .get(`http://localhost:8080/api/setmember/${rollno}`)
-      .then((response) => {
-        setUser(response.data);
-        setRollfound(true);
-      })
-      .catch((error) => {
-        console.error(error);
-        setUser([]);
-        setRollfound(false);
-      });
-  }, [rollno]);
 
   useEffect(() => {
     const initWorker = async () => {
@@ -49,13 +24,6 @@ const Scanner = () => {
     };
 
     initWorker();
-
-    axios
-      .get(`http://localhost:8080/api/event`)
-      .then((response) => {
-        SetEvents(response.data);
-      })
-      .catch((error) => {});
     // Cleanup: Terminate worker when component unmounts
     return () => {
       if (workerRef.current) {
@@ -88,7 +56,6 @@ const Scanner = () => {
     setScanning(false);
     clearInterval(intervalref.current);
     setrollno("");
-    setRollfound(false);
     await stopCamera();
   };
 
@@ -136,23 +103,6 @@ const Scanner = () => {
     return text.match(regex) || [];
   };
 
-  const markattendence = async () => {
-    axios
-      .post(`http://localhost:8080/api/attendance`, {
-        eventId: 2,
-        regnum: rollno,
-        present: true,
-      })
-      .then((response) => {
-        setAttendance(true);
-        console.log(response.data);
-      })
-      .catch((error) => {
-        setAttendance(false);
-        setBackendError(error.response.data);
-      });
-  };
-
   return (
     <div>
       <div>
@@ -174,17 +124,6 @@ const Scanner = () => {
             }}
           />
         </div>
-        {rollfound ? (
-          <h3>Roll number detected</h3>
-        ) : (
-          <h3>Roll number not detected</h3>
-        )}
-        <h3>Present Students</h3>
-        <ul>{rollno}</ul>
-        {rollfound && <Membercard data={user} />}
-        {rollfound && <button onClick={markattendence}>Yes</button>}
-        {attendance && <p>Attendance marked sucessfully</p>}
-        {!attendance && backendError && <p>{backendError}</p>}
         <canvas ref={canvasref}></canvas>
         <div>
           {!scanning ? (
@@ -193,10 +132,6 @@ const Scanner = () => {
             <button onClick={stopscanning}>Stop Scanning</button>
           )}
         </div>
-        <h3>Events</h3>
-        {events.map((event) => (
-          <Eventscard key={event.id} data={event} />
-        ))}
       </div>
     </div>
   );

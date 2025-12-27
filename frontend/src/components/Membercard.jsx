@@ -10,13 +10,13 @@ import React from 'react'
 const Membercard = ({ data }) => {
   return (
       <div>
-          <p>{data.name}</p>
-          <p>{data.regnum}</p>
-          <p>{data.role}</p>
-          <p>{data.vit_email}</p>
-          <p>{data.mobile_no}</p>
-          <p>{data.college_department}</p>
-          <p>{data.club_dept}</p>
+          <span>{data.name}</span>
+          <span>{data.regnum}</span>
+          <span>{data.role}</span>
+          <span>{data.vit_email}</span>
+          <span>{data.mobile_no}</span>
+          <span>{data.college_department}</span>
+          <span>{data.club_dept}</span>
     </div>
   )
 }
