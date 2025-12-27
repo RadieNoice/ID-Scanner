@@ -18,6 +18,7 @@ const Attendance = () => {
         alert(error.response.data);
       });
   }, []);
+
   useEffect(() => {
     if (!selected_event) return;
     axios
@@ -45,7 +46,8 @@ const Attendance = () => {
       {attendances.length > 0 ? (
         <>
           {attendances.map((attendance) => (
-            <Attendancecard key={attendance.id} data={attendance} setrefresh={setrefresh}/>
+            
+           <Attendancecard key={attendance.id} data={attendance} setrefresh={setrefresh}/>
           ))}
         </>
       ) : (

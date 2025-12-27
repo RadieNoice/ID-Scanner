@@ -29,13 +29,15 @@ const Membercard = ({ data, show_edit }) => {
           <span>{data.mobile_no}</span>
           <span>{data.college_department}</span>
           <span>{data.club_dept}</span>
-          <button
-            onClick={() => {
-              setedit(true);
-            }}
-          >
-            Edit
-          </button>
+          {show_edit && (
+            <button
+              onClick={() => {
+                setedit(true);
+              }}
+            >
+              Edit
+            </button>
+          )}
         </>
       ) : (
         <>

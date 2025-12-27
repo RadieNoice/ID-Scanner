@@ -74,14 +74,13 @@ const Dashboard = () => {
           </option>
         ))}
       </select>
-      <Scanner
-        rollno={rollno}
-        setrollno={setrollno}
-      />
+      <Scanner rollno={rollno} setrollno={setrollno} />
       <h3>Present Students</h3>
       <ul>{rollno}</ul>
-      {roll_found && selected_event && <Membercard data={user} />}
-      {roll_found && user && selected_event&& <button onClick={mark_attendence}>Yes</button>}
+      {roll_found && selected_event && <Membercard data={user} show_edit={0} />}
+      {roll_found && user && selected_event && (
+        <button onClick={mark_attendence}>Yes</button>
+      )}
     </div>
   );
 };

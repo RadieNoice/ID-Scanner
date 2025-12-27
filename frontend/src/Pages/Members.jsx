@@ -1,12 +1,11 @@
-import React from 'react';
+import React, { useState } from "react";
 
-import Membercard from '../components/Membercard';
-
+import Membercard from "../components/Membercard";
 
 const Members = () => {
-  return (
-    <div>Member</div>
-  )
-}
+  const dept = ["", "", "", ""];
+  const [members, setmembers] = useState([]);
+  return <div></div>;
+};
 
-export default Members
+export default Members;

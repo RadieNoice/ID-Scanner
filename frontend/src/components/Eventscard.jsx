@@ -11,9 +11,19 @@ const Eventscard = ({ data, setrefresh }) => {
   const [date, setdate] = useState(data.date);
   const save = async () => {
     setEditing(false);
-    // await axios.put(`http://localhost:8080/api/event/update/${data.id}`, {
-    //   eventname: name,
-    // });
+    await axios
+      .put(`http://localhost:8080/api/event/update/${data.id}`, {
+        eventname: name,
+        eventdesc: desc,
+        date: date,
+      })
+      .then((Response) => {
+        alert(Response.data);
+        setrefresh((prev) => !prev);
+      })
+      .catch((err) => {
+        alert(err.response.data);
+      });
   };
   return (
     <div>
