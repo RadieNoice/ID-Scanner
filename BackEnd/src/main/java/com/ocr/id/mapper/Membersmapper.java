@@ -10,10 +10,10 @@ import jakarta.persistence.*;
 
 public class Membersmapper {
 	
-	Members member = new Members();
 	
 	public Members toEntity(Membersdto mem)
 	{
+		Members member = new Members();
 		member.setRegnum(mem.getRegnum());
 		member.setName(mem.getName());
 		member.setVit_email(mem.getVit_email());

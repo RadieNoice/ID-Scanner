@@ -9,10 +9,10 @@ import com.ocr.id.model.Event;
 
 public class EventMapper {
 	
-	Event event = new Event();
 	
 	public Event toEntity(EventDto dto)
 	{
+		Event event = new Event();
 		event.setEventname(dto.getEventname());
 		event.setEventdesc(dto.getEventdesc());
 		event.setDate(dto.getDate());
