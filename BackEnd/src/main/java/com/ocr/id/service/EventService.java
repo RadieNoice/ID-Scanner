@@ -44,5 +44,18 @@ public class EventService {
 
 	    repo.deleteById(eventId);
 	}
+	
+	public Event updateEvent(Long eventId, EventDto dto) {
+
+	    Event existing = repo.findById(eventId)
+	            .orElseThrow(() -> new RuntimeException("Event not found"));
+
+	    existing.setEventname(dto.getEventname());
+	    existing.setEventdesc(dto.getEventdesc());
+	    existing.setDate(dto.getDate());
+
+	    return repo.save(existing); // UPDATE
+	}
+
 
 }
