@@ -12,7 +12,7 @@ const Membercard = ({ data, refresh }) => {
         member
       );
       setEdit(false);
-      refresh(); // refresh parent list
+      refresh(); 
     } catch (err) {
       console.error(err);
     }
