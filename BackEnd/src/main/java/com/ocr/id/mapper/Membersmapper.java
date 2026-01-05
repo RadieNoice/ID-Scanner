@@ -1,18 +1,15 @@
 package com.ocr.id.mapper;
+
 import org.springframework.stereotype.Component;
 
 import com.ocr.id.dto.Membersdto;
 import com.ocr.id.model.Members;
 
-import jakarta.persistence.*;
-
 @Component
 
 public class Membersmapper {
-	
-	
-	public Members toEntity(Membersdto mem)
-	{
+
+	public Members toEntity(Membersdto mem) {
 		Members member = new Members();
 		member.setRegnum(mem.getRegnum());
 		member.setName(mem.getName());
@@ -21,9 +18,9 @@ public class Membersmapper {
 		member.setClub_dept(mem.getClub_dept());
 		member.setMobile_no(mem.getMobile_no());
 		member.setRole(mem.getRole());
-		
+		member.setCollege_year(mem.getCollege_year());
+
 		return member;
 	}
-	
 
 }

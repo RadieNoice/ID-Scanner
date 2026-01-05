@@ -1,84 +1,46 @@
-import axios from "axios";
-import React, { useState } from "react";
+import React from "react";
+import { User, Building2, CreditCard, Mail } from "lucide-react";
 
-const Membercard = ({ data, refresh }) => {
-  const [member, setMember] = useState(data);
-  const [edit, setEdit] = useState(false);
-
-  const save_member = async () => {
-    try {
-      await axios.put(
-        `http://localhost:8080/api/setmember/${member.regnum}`,
-        member
-      );
-      setEdit(false);
-      refresh(); 
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
+const Membercard = ({ data }) => {
   return (
-    <div style={{ border: "1px solid #ccc", margin: "10px", padding: "10px" }}>
-      {!edit ? (
-        <>
-          <p><b>Name:</b> {data.name}</p>
-          <p><b>Reg No:</b> {data.regnum}</p>
-          <p><b>Role:</b> {data.role}</p>
-          <p><b>Email:</b> {data.vit_email}</p>
-          <p><b>Mobile:</b> {data.mobile_no}</p>
-          <p><b>Dept:</b> {data.college_department}</p>
-          <p><b>Club:</b> {data.club_dept}</p>
+    <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'flex-start' }}>
+      <div style={{
+        width: '100px',
+        height: '100px',
+        backgroundColor: '#E0E7FF',
+        borderRadius: '50%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: 'var(--primary-color)',
+        flexShrink: 0
+      }}>
+        <User size={48} />
+      </div>
 
-          <button onClick={() => setEdit(true)}>Edit</button>
-        </>
-      ) : (
-        <>
-          <input
-            value={member.name}
-            onChange={(e) =>
-              setMember({ ...member, name: e.target.value })
-            }
-          />
-          <input value={member.regnum} disabled />
-          <input
-            value={member.role}
-            onChange={(e) =>
-              setMember({ ...member, role: e.target.value })
-            }
-          />
-          <input
-            value={member.vit_email}
-            onChange={(e) =>
-              setMember({ ...member, vit_email: e.target.value })
-            }
-          />
-          <input
-            value={member.mobile_no}
-            onChange={(e) =>
-              setMember({ ...member, mobile_no: e.target.value })
-            }
-          />
-          <input
-            value={member.college_department}
-            onChange={(e) =>
-              setMember({
-                ...member,
-                college_department: e.target.value,
-              })
-            }
-          />
-          <input
-            value={member.club_dept}
-            onChange={(e) =>
-              setMember({ ...member, club_dept: e.target.value })
-            }
-          />
+      <div style={{ flex: 1 }}>
+        <h2 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '0.25rem' }}>{data.name}</h2>
+        <p style={{ color: 'var(--text-secondary)', marginBottom: '1rem', fontSize: '1.1rem' }}>{data.regnum}</p>
 
-          <button onClick={save_member}>Save</button>
-          <button onClick={() => setEdit(false)}>Cancel</button>
-        </>
-      )}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-main)' }}>
+            <Building2 size={16} color="var(--text-secondary)" />
+            <span>{data.college_department || 'N/A'}</span>
+          </div>
+          {data.college_year && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-main)' }}>
+              <CreditCard size={16} color="var(--text-secondary)" />
+              <span>Year: {data.college_year}</span>
+            </div>
+          )}
+          {data.vit_email && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-main)' }}>
+              <Mail size={16} color="var(--text-secondary)" />
+              <span>{data.vit_email}</span>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

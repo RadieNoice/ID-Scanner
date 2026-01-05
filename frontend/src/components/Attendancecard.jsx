@@ -1,38 +1,50 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Membercard from "./Membercard";
+import { Trash2, Clock } from "lucide-react";
 import axios from "axios";
-// "id": 1,
-// "markedAt": "2025-12-25T19:00:23.593412",
-// "member": {
-//     "club_dept": "Technical Club",
-//     "college_department": "Computer Science",
-//     "mobile_no": "9876543210",
-//     "name": "Rahul",
-//     "regnum": "23BCE1234",
-//     "role": "0",
-//     "vit_email": "rahul.sharma@vit.ac.in"
-// },
-// "present": true
 
 const Attendancecard = ({ data, setrefresh }) => {
   const deleteattendance = async () => {
-    await axios
-      .delete(`http://localhost:8080/api/attendance/${data.id}`)
-      .then((response) => {
-        alert(response.data);
-        setrefresh((prev) => !prev);
-      })
-      .catch((error) => {
-        alert(error.response.data);
-      });
+    if (window.confirm("Remove this attendance record?")) {
+      await axios
+        .delete(`http://localhost:8080/api/attendance/${data.id}`)
+        .then((response) => {
+          setrefresh((prev) => !prev);
+        })
+        .catch((error) => {
+          alert("Error deleting record");
+        });
+    }
   };
+
+  const formatTime = (dateString) => {
+    if (!dateString) return "";
+    return new Date(dateString).toLocaleString();
+  }
+
   return (
-    <div>
-      <span>{data.id}</span>
-      <span>{data.marked_At}</span>
-      <Membercard data={data.member} />
-      <span>{data.present}</span>
-      <button onClick={deleteattendance}>delete</button>
+    <div className="card" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+        <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+          <Clock size={14} />
+          <span>Marked: {formatTime(data.markedAt)}</span>
+        </div>
+        {/* Reuse Membercard but maybe scale it down or wrap it? 
+             Membercard is a bit large. Let's extract just the simplified info or use Membercard if it fits. 
+             Membercard is flex. */}
+        <div style={{ transform: 'scale(0.9)', transformOrigin: 'left top' }}>
+          <Membercard data={data.member} />
+        </div>
+      </div>
+
+      <button
+        onClick={deleteattendance}
+        className="btn btn-outline"
+        style={{ padding: '0.5rem', color: '#EF4444', borderColor: '#FECACA', alignSelf: 'flex-start' }}
+        title="Delete Record"
+      >
+        <Trash2 size={18} />
+      </button>
     </div>
   );
 };
