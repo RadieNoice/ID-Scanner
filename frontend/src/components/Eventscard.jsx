@@ -1,55 +1,81 @@
-import React from "react";
-import { Calendar, Trash2 } from "lucide-react";
+import React, { useState } from "react";
 import axios from "axios";
-
+// "date": "2025-12-31",
+// "eventdesc": "danakunaka-part2",
+// "eventname": "Dandanaka-part1",
+// "id": 1
 const Eventscard = ({ data, setrefresh }) => {
-
-  const deleteEvent = async () => {
-    if (window.confirm(`Are you sure you want to delete "${data.eventname}"?`)) {
-      try {
-        await axios.delete(`http://localhost:8080/api/event/${data.id}`);
+  const [editing, setEditing] = useState(false);
+  const [name, setname] = useState(data.eventname);
+  const [desc, setdesc] = useState(data.eventdesc);
+  const [date, setdate] = useState(data.date);
+  const save = async () => {
+    setEditing(false);
+    await axios
+      .put(`http://localhost:8080/api/event/update/${data.id}`, {
+        eventname: name,
+        eventdesc: desc,
+        date: date,
+      })
+      .then((Response) => {
+        alert(Response.data);
         setrefresh((prev) => !prev);
-      } catch (error) {
-        console.error("Error deleting event", error);
-        alert("Failed to delete event");
-      }
-    }
+      })
+      .catch((err) => {
+        alert(err.response.data);
+      });
   };
-
-  // Format date nicely
-  const formatDate = (dateString) => {
-    if (!dateString) return "No date";
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
-  };
-
   return (
-    <div className="card" style={{ display: 'flex', flexDirection: 'column', height: '100%', position: 'relative' }}>
-      <div style={{ flex: 1 }}>
-        <h3 style={{ fontSize: '1.25rem', fontWeight: 600, marginBottom: '0.5rem' }}>{data.eventname}</h3>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-secondary)', marginBottom: '1rem', fontSize: '0.9rem' }}>
-          <Calendar size={16} />
-          <span>{formatDate(data.date)}</span>
-        </div>
-        <p style={{ color: 'var(--text-secondary)', lineHeight: 1.6 }}>
-          {data.eventdesc || "No description provided."}
-        </p>
-      </div>
+    <div>
+      {!editing ? (
+        <>
+          <p>
+            {data.id} {name}
+          </p>
+          <p>des :{desc}</p>
+          <p>date: {date}</p>
+          <button
+            onClick={() => {
+              setEditing(true);
+            }}
+          >
+            Edit
+          </button>
+        </>
+      ) : (
+        <>
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => {
+              setname(e.target.value);
+            }}
+          />
+          <input
+            type="text"
+            value={desc}
+            onChange={(e) => {
+              setdesc(e.target.value);
+            }}
+          />
+          <input
+            type="date"
+            value={date}
+            onChange={(e) => {
+              setdate(e.target.value);
+            }}
+          />
 
-      <div style={{ marginTop: '1.5rem', paddingTop: '1rem', borderTop: '1px solid var(--border-color)', display: 'flex', justifyContent: 'flex-end' }}>
-        <button
-          onClick={deleteEvent}
-          className="btn btn-outline"
-          style={{ padding: '0.5rem', color: '#EF4444', borderColor: '#FECACA' }}
-          title="Delete Event"
-        >
-          <Trash2 size={18} />
-        </button>
-      </div>
+          <button onClick={save}>Save</button>
+          <button
+            onClick={() => {
+              setEditing(false);
+            }}
+          >
+            Cancel
+          </button>
+        </>
+      )}
     </div>
   );
 };

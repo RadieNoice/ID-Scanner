@@ -1,0 +1,227 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --primary: #6366f1;
+    --primary-hover: #4f46e5;
+    --secondary: #ec4899;
+    --accent: #f59e0b;
+    --bg-dark: #0f172a;
+    --bg-card: rgba(30, 41, 59, 0.7);
+    --border-color: rgba(255, 255, 255, 0.1);
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-blur: blur(12px);
+    --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    --section-gap: 4rem;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Outfit', sans-serif;
+}
+
+body {
+    background-color: var(--bg-dark);
+    background-image:
+        radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(236, 72, 153, 0.15) 0, transparent 50%);
+    color: var(--text-main);
+    min-height: 100vh;
+    line-height: 1.6;
+}
+
+/* Main Layout Container */
+#root>div {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: var(--section-gap);
+}
+
+/* Page Containers (Dashboard, Events, Attendance, Members) */
+#root>div>div {
+    background: var(--bg-card);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--border-color);
+    border-radius: 1.5rem;
+    padding: 2.5rem;
+    box-shadow: var(--shadow);
+    animation: fadeIn 0.6s ease-out forwards;
+}
+
+/* Section Headings */
+h1,
+h2,
+h3 {
+    color: var(--text-main);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 2rem;
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+h2::after,
+h3::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    border-radius: 2px;
+}
+
+/* Scanner Layout Refinement */
+#root>div>div select {
+    margin-bottom: 2rem;
+}
+
+/* Targeting the Scanner components inside Dashboard */
+#root>div>div>div:has(video) {
+    margin: 2rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+/* Specifically target the container with the video in Scanner.jsx */
+div[style*="width: 300px"][style*="height: 100px"] {
+    border: 3px solid var(--primary);
+    border-radius: 1rem;
+    box-shadow: 0 0 25px rgba(99, 102, 241, 0.4);
+    background: black;
+    margin-bottom: 1.5rem !important;
+}
+
+/* Fix for the "Present Students" list */
+h3+ul {
+    display: block;
+    margin: 1.5rem 0;
+    background: rgba(99, 102, 241, 0.1);
+    padding: 1.25rem 2rem;
+    border-left: 5px solid var(--primary);
+    border-radius: 0.5rem 1rem 1rem 0.5rem;
+    color: var(--primary);
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+/* Event Creation Form Spacing */
+#root>div>div>button+br+span,
+#root>div>div>button+span {
+    margin-top: 2rem;
+}
+
+#root>div>div span {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin: 1.5rem 0 0.5rem 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Card Styling (Membercard, Eventscard, Attendancecard) */
+div[style*="border: 1px solid #ccc"] {
+    border: 1px solid var(--border-color) !important;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    border-radius: 1.25rem !important;
+    padding: 2rem !important;
+    margin: 1.5rem 0 !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--shadow);
+}
+
+div[style*="border: 1px solid #ccc"]:hover {
+    transform: scale(1.02);
+    border-color: var(--primary) !important;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* Controls Spacing */
+select,
+input {
+    margin-bottom: 1.5rem !important;
+    width: 100%;
+    max-width: 450px;
+}
+
+button {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* Horizontal Rule Styling */
+hr {
+    border: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+    margin: 3rem 0;
+}
+
+/* Grid Layouts (Applied via page wrappers) */
+.Members-page,
+.Events-page {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+}
+
+/* General improvements for readability */
+p {
+    margin-bottom: 0.75rem;
+}
+
+b {
+    color: var(--text-muted);
+    font-weight: 500;
+    margin-right: 0.5rem;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Fix for buttons that were too close */
+button+button {
+    margin-left: 1rem;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-hover);
+}
