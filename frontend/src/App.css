@@ -1,64 +1,145 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap');
 
 :root {
-    --primary: #6366f1;
-    --primary-hover: #4f46e5;
-    --secondary: #ec4899;
-    --accent: #f59e0b;
+    /* Primary Colors - Modern Purple & Blue Gradient */
+    --primary: #7c3aed;
+    --primary-hover: #6d28d9;
+    --primary-light: #a78bfa;
+    --secondary: #3b82f6;
+    --secondary-hover: #2563eb;
+    --accent: #ec4899;
+    --accent-light: #f472b6;
+
+    /* Success & Warning Colors */
+    --success: #10b981;
+    --success-light: #34d399;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+
+    /* Background Colors */
     --bg-dark: #0f172a;
-    --bg-card: rgba(30, 41, 59, 0.7);
-    --border-color: rgba(255, 255, 255, 0.1);
+    --bg-darker: #020617;
+    --bg-card: rgba(30, 41, 59, 0.85);
+    --bg-card-hover: rgba(51, 65, 85, 0.95);
+    --bg-input: rgba(15, 23, 42, 0.6);
+
+    /* Border & Glass Effects */
+    --border-color: rgba(148, 163, 184, 0.15);
+    --border-hover: rgba(124, 58, 237, 0.5);
+    --glass-bg: rgba(255, 255, 255, 0.03);
+    --glass-bg-strong: rgba(255, 255, 255, 0.08);
+    --glass-blur: blur(16px);
+
+    /* Text Colors */
     --text-main: #f8fafc;
+    --text-secondary: #cbd5e1;
     --text-muted: #94a3b8;
-    --glass-bg: rgba(255, 255, 255, 0.05);
-    --glass-blur: blur(12px);
-    --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-    --section-gap: 4rem;
+    --text-dim: #64748b;
+
+    /* Shadows */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.2);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.3);
+    --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.4);
+    --shadow-glow: 0 0 30px rgba(124, 58, 237, 0.3);
+    --shadow-glow-hover: 0 0 40px rgba(124, 58, 237, 0.5);
+
+    /* Spacing */
+    --section-gap: 3rem;
+    --card-gap: 1.5rem;
+
+    /* Border Radius */
+    --radius-sm: 0.5rem;
+    --radius-md: 0.75rem;
+    --radius-lg: 1rem;
+    --radius-xl: 1.5rem;
+
+    /* Transitions */
+    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* ============================================
+   GLOBAL RESET & BASE STYLES
+   ============================================ */
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: 'Outfit', sans-serif;
 }
 
 body {
-    background-color: var(--bg-dark);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg-darker);
     background-image:
-        radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0, transparent 50%),
-        radial-gradient(at 100% 100%, rgba(236, 72, 153, 0.15) 0, transparent 50%);
+        radial-gradient(circle at 20% 10%, rgba(124, 58, 237, 0.12) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 60%, rgba(236, 72, 153, 0.08) 0%, transparent 50%);
+    background-attachment: fixed;
     color: var(--text-main);
     min-height: 100vh;
     line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-/* Main Layout Container */
+/* ============================================
+   MAIN LAYOUT CONTAINER
+   ============================================ */
 #root>div {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
-    padding: 3rem 2rem;
+    padding: 2.5rem 2rem;
     display: flex;
     flex-direction: column;
     gap: var(--section-gap);
 }
 
-/* Page Containers (Dashboard, Events, Attendance, Members) */
+/* ============================================
+   PAGE CONTAINERS
+   ============================================ */
 #root>div>div {
     background: var(--bg-card);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
     border: 1px solid var(--border-color);
-    border-radius: 1.5rem;
+    border-radius: var(--radius-xl);
     padding: 2.5rem;
-    box-shadow: var(--shadow);
-    animation: fadeIn 0.6s ease-out forwards;
+    box-shadow: var(--shadow-lg);
+    animation: fadeInUp 0.5s ease-out forwards;
+    position: relative;
+    overflow: hidden;
 }
 
-/* Section Headings */
+#root>div>div::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+    opacity: 0.8;
+}
+
+#root>div>div:hover {
+    border-color: var(--border-hover);
+    box-shadow: var(--shadow-xl), var(--shadow-glow);
+    transition: all var(--transition-slow);
+}
+
+/* ============================================
+   TYPOGRAPHY
+   ============================================ */
 h1,
 h2,
-h3 {
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Poppins', sans-serif;
     color: var(--text-main);
     font-weight: 700;
     letter-spacing: -0.02em;
@@ -68,24 +149,230 @@ h3 {
     width: 100%;
 }
 
+h1 {
+    font-size: 2.5rem;
+    background: linear-gradient(135deg, var(--primary-light), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+h2 {
+    font-size: 2rem;
+    color: var(--text-main);
+}
+
+h3 {
+    font-size: 1.5rem;
+    color: var(--text-secondary);
+}
+
 h2::after,
 h3::after {
     content: '';
     position: absolute;
-    bottom: -8px;
+    bottom: -12px;
     left: 0;
-    width: 60px;
+    width: 80px;
     height: 4px;
     background: linear-gradient(90deg, var(--primary), var(--secondary));
     border-radius: 2px;
+    box-shadow: 0 2px 8px rgba(124, 58, 237, 0.4);
 }
 
-/* Scanner Layout Refinement */
+p {
+    margin-bottom: 0.75rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
+
+b {
+    color: var(--text-muted);
+    font-weight: 600;
+    margin-right: 0.5rem;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+}
+
+/* ============================================
+   FORM ELEMENTS - INPUTS & SELECTS
+   ============================================ */
+input,
+select {
+    width: 100%;
+    max-width: 500px;
+    padding: 0.875rem 1.25rem;
+    margin-bottom: 1.25rem;
+    background: var(--bg-input);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    color: var(--text-main);
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    transition: all var(--transition-base);
+    outline: none;
+    backdrop-filter: blur(8px);
+}
+
+input::placeholder {
+    color: var(--text-dim);
+}
+
+input:focus,
+select:focus {
+    border-color: var(--primary);
+    background: rgba(15, 23, 42, 0.8);
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15), var(--shadow-md);
+    transform: translateY(-1px);
+}
+
+input:hover,
+select:hover {
+    border-color: var(--primary-light);
+}
+
+input:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: rgba(15, 23, 42, 0.3);
+}
+
+select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23a78bfa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1.25rem;
+    padding-right: 3rem;
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+button {
+    padding: 0.875rem 2rem;
+    margin: 0.5rem 0.5rem 0.5rem 0;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: var(--text-main);
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    box-shadow: var(--shadow-md);
+    position: relative;
+    overflow: hidden;
+    text-transform: capitalize;
+    letter-spacing: 0.02em;
+}
+
+button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+button:hover::before {
+    left: 100%;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg), var(--shadow-glow-hover);
+    background: linear-gradient(135deg, var(--primary-hover), var(--secondary-hover));
+}
+
+button:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-sm);
+}
+
+button+button {
+    margin-left: 0.75rem;
+}
+
+/* Secondary Button Style (for Cancel, etc.) */
+button:nth-of-type(2),
+button:last-child {
+    background: rgba(148, 163, 184, 0.15);
+    border: 2px solid var(--border-color);
+}
+
+button:nth-of-type(2):hover,
+button:last-child:hover {
+    background: rgba(148, 163, 184, 0.25);
+    border-color: var(--text-muted);
+}
+
+/* ============================================
+   CARDS (Member, Event, Attendance)
+   ============================================ */
+div[style*="border: 1px solid #ccc"] {
+    border: 2px solid var(--border-color) !important;
+    background: var(--glass-bg) !important;
+    backdrop-filter: var(--glass-blur);
+    border-radius: var(--radius-lg) !important;
+    padding: 2rem !important;
+    margin: 1.25rem 0 !important;
+    transition: all var(--transition-base);
+    box-shadow: var(--shadow-md);
+    position: relative;
+    overflow: hidden;
+}
+
+div[style*="border: 1px solid #ccc"]::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--primary), var(--secondary));
+    opacity: 0;
+    transition: opacity var(--transition-base);
+}
+
+div[style*="border: 1px solid #ccc"]:hover {
+    transform: translateY(-4px) scale(1.01);
+    border-color: var(--primary) !important;
+    background: var(--glass-bg-strong) !important;
+    box-shadow: var(--shadow-xl), var(--shadow-glow);
+}
+
+div[style*="border: 1px solid #ccc"]:hover::before {
+    opacity: 1;
+}
+
+/* Card Text Styling */
+div[style*="border: 1px solid #ccc"] p {
+    padding: 0.5rem 0;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+div[style*="border: 1px solid #ccc"] b {
+    color: var(--primary-light);
+    min-width: 100px;
+}
+
+/* ============================================
+   SCANNER COMPONENT
+   ============================================ */
 #root>div>div select {
     margin-bottom: 2rem;
 }
 
-/* Targeting the Scanner components inside Dashboard */
 #root>div>div>div:has(video) {
     margin: 2rem 0;
     display: flex;
@@ -94,107 +381,114 @@ h3::after {
     gap: 1.5rem;
 }
 
-/* Specifically target the container with the video in Scanner.jsx */
+/* Video Container */
 div[style*="width: 300px"][style*="height: 100px"] {
-    border: 3px solid var(--primary);
-    border-radius: 1rem;
-    box-shadow: 0 0 25px rgba(99, 102, 241, 0.4);
-    background: black;
+    border: 3px solid var(--primary) !important;
+    border-radius: var(--radius-lg) !important;
+    box-shadow:
+        0 0 30px rgba(124, 58, 237, 0.5),
+        0 8px 24px rgba(0, 0, 0, 0.4),
+        inset 0 0 20px rgba(124, 58, 237, 0.1) !important;
+    background: black !important;
     margin-bottom: 1.5rem !important;
+    position: relative;
+    overflow: hidden;
 }
 
-/* Fix for the "Present Students" list */
+div[style*="width: 300px"][style*="height: 100px"]::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg,
+            transparent,
+            rgba(124, 58, 237, 0.1),
+            transparent);
+    animation: scannerGlow 3s linear infinite;
+}
+
+@keyframes scannerGlow {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Canvas Element */
+canvas {
+    display: none;
+}
+
+/* ============================================
+   PRESENT STUDENTS LIST
+   ============================================ */
 h3+ul {
     display: block;
     margin: 1.5rem 0;
-    background: rgba(99, 102, 241, 0.1);
-    padding: 1.25rem 2rem;
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.15), rgba(59, 130, 246, 0.1));
+    padding: 1.5rem 2rem;
     border-left: 5px solid var(--primary);
-    border-radius: 0.5rem 1rem 1rem 0.5rem;
-    color: var(--primary);
+    border-radius: var(--radius-md);
+    color: var(--primary-light);
     font-weight: 700;
-    font-size: 1.1rem;
+    font-size: 1.25rem;
+    box-shadow: var(--shadow-md);
+    letter-spacing: 0.05em;
+    font-family: 'Poppins', sans-serif;
 }
 
-/* Event Creation Form Spacing */
-#root>div>div>button+br+span,
-#root>div>div>button+span {
-    margin-top: 2rem;
-}
-
+/* ============================================
+   FORM LABELS (SPAN ELEMENTS)
+   ============================================ */
 #root>div>div span {
     display: block;
-    font-size: 0.85rem;
+    font-size: 0.875rem;
     font-weight: 600;
-    color: var(--text-muted);
-    margin: 1.5rem 0 0.5rem 0;
+    color: var(--primary-light);
+    margin: 1.5rem 0 0.75rem 0;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.1em;
+    font-family: 'Poppins', sans-serif;
 }
 
-/* Card Styling (Membercard, Eventscard, Attendancecard) */
-div[style*="border: 1px solid #ccc"] {
-    border: 1px solid var(--border-color) !important;
-    background: var(--glass-bg);
-    backdrop-filter: var(--glass-blur);
-    border-radius: 1.25rem !important;
-    padding: 2rem !important;
-    margin: 1.5rem 0 !important;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: var(--shadow);
-}
-
-div[style*="border: 1px solid #ccc"]:hover {
-    transform: scale(1.02);
-    border-color: var(--primary) !important;
-    background: rgba(255, 255, 255, 0.08);
-}
-
-/* Controls Spacing */
-select,
-input {
-    margin-bottom: 1.5rem !important;
-    width: 100%;
-    max-width: 450px;
-}
-
-button {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-}
-
-/* Horizontal Rule Styling */
+/* ============================================
+   HORIZONTAL RULE
+   ============================================ */
 hr {
     border: 0;
     height: 2px;
-    background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+    background: linear-gradient(90deg,
+            transparent,
+            var(--border-color),
+            var(--primary),
+            var(--border-color),
+            transparent);
     margin: 3rem 0;
+    box-shadow: 0 0 10px rgba(124, 58, 237, 0.3);
 }
 
-/* Grid Layouts (Applied via page wrappers) */
+/* ============================================
+   GRID LAYOUTS
+   ============================================ */
 .Members-page,
 .Events-page {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
     gap: 2rem;
 }
 
-/* General improvements for readability */
-p {
-    margin-bottom: 0.75rem;
-}
-
-b {
-    color: var(--text-muted);
-    font-weight: 500;
-    margin-right: 0.5rem;
-}
-
-/* Animations */
-@keyframes fadeIn {
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+@keyframes fadeInUp {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(30px);
     }
 
     to {
@@ -203,25 +497,140 @@ b {
     }
 }
 
-/* Fix for buttons that were too close */
-button+button {
-    margin-left: 1rem;
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
 }
 
-/* Custom Scrollbar */
+@keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
+/* ============================================
+   CUSTOM SCROLLBAR
+   ============================================ */
 ::-webkit-scrollbar {
-    width: 8px;
+    width: 10px;
+    height: 10px;
 }
 
 ::-webkit-scrollbar-track {
-    background: var(--bg-dark);
+    background: var(--bg-darker);
+    border-radius: var(--radius-sm);
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--primary);
-    border-radius: 4px;
+    background: linear-gradient(180deg, var(--primary), var(--secondary));
+    border-radius: var(--radius-sm);
+    border: 2px solid var(--bg-darker);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: var(--primary-hover);
+    background: linear-gradient(180deg, var(--primary-hover), var(--secondary-hover));
+    box-shadow: var(--shadow-glow);
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+@media (max-width: 768px) {
+    #root>div {
+        padding: 1.5rem 1rem;
+        gap: 2rem;
+    }
+
+    #root>div>div {
+        padding: 1.5rem;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    h3 {
+        font-size: 1.25rem;
+    }
+
+    .Members-page,
+    .Events-page {
+        grid-template-columns: 1fr;
+    }
+
+    button {
+        width: 100%;
+        margin: 0.5rem 0;
+    }
+
+    button+button {
+        margin-left: 0;
+    }
+
+    input,
+    select {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    #root>div {
+        padding: 1rem 0.75rem;
+    }
+
+    #root>div>div {
+        padding: 1.25rem;
+        border-radius: var(--radius-lg);
+    }
+
+    div[style*="border: 1px solid #ccc"] {
+        padding: 1.5rem !important;
+    }
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+.fade-in {
+    animation: fadeInUp 0.5s ease-out;
+}
+
+.pulse {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+    outline: 3px solid var(--primary);
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
 }

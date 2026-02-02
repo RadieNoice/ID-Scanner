@@ -1,6 +1,7 @@
 package com.ocr.id.service;
 import java.util.List;
 
+
 import org.springframework.stereotype.Service;
 
 import com.ocr.id.dto.Membersdto;
@@ -8,7 +9,6 @@ import com.ocr.id.mapper.Membersmapper;
 import com.ocr.id.model.Members;
 import com.ocr.id.repository.MembersRepository;
 
-import jakarta.persistence.*;
 import jakarta.transaction.Transactional;
 
 @Service

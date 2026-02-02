@@ -9,6 +9,7 @@ import Members from './Pages/Members'
 const App = () => {
   return (
     <div>
+      <h1>ID OCR Scanner</h1>
       <Dashboard />
       <Events />
       <Attendance />
